@@ -2,4 +2,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 5px;
+  box-shadow: inset 0px 0px 3px 0px rgba(0,0,0,0.5);
+  padding: 5px;
+}
+
+.Display {
+  background-color: black;
+  color: red;
+  padding: 0 3px;
+}
+
+.Restart {
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.Restart img {
+  width: 20px;
+  height: 20px;
 }
