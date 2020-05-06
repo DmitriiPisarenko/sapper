@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from './components/header';
+import Host from './components/host';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Header counter={8} time={10} />
+    <Host />
   </React.StrictMode>,
   document.getElementById('root'),
 );
