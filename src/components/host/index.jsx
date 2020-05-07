@@ -11,10 +11,19 @@ export default class Host extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: [] };
+    this.cellClickHandler = this.cellClickHandler.bind(this);
+    this.generateData = this.generateData.bind(this);
   }
 
   componentDidMount() {
     this.generateData();
+  }
+
+  cellClickHandler(row, col) {
+    const { data } = this.state;
+    const newData = data.slice();
+    newData[row][col].isOpen = true;
+    this.setState({ data: newData });
   }
 
   generateData() {
@@ -33,8 +42,8 @@ export default class Host extends React.Component {
     const { data } = this.state;
     return (
       <div className={styles.Container}>
-        <Header counter={counter} time={time} />
-        <Field data={data} />
+        <Header counter={counter} time={time} onRestartClick={this.generateData} />
+        <Field data={data} onCellClick={this.cellClickHandler} />
       </div>
     );
   }

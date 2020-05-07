@@ -4,7 +4,7 @@ import styles from './header.module.css';
 import smile from '../../assets/images/smile.png';
 
 export default function Header(props) {
-  const { counter, time } = props;
+  const { counter, time, onRestartClick } = props;
 
   return (
     <header className={styles.Container}>
@@ -12,7 +12,7 @@ export default function Header(props) {
         {counter.toString().padStart(3, 0)}
       </div>
 
-      <button type="button" className={styles.Restart}>
+      <button type="button" className={styles.Restart} onClick={onRestartClick}>
         <img src={smile} alt="smile" />
       </button>
 
@@ -26,4 +26,5 @@ export default function Header(props) {
 Header.propTypes = {
   counter: propTypes.number.isRequired,
   time: propTypes.number.isRequired,
+  onRestartClick: propTypes.func.isRequired,
 };
