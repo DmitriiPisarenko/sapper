@@ -16,6 +16,7 @@ export default function Cell(props) {
   return (
     <div className={styles.Cell}>
       {value}
+      <div className={styles.Overlay} />
     </div>
   );
 }
