@@ -1,16 +1,17 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import styles from './field.module.css';
+import Cell, { cellData } from '../cell';
 
 export default function Field(props) {
   const { data } = props;
 
   return (
     <div className={styles.Container}>
-      { data.map((row) => (
-        <div>
-          { row.map((item) => (
-            item.tip
+      { data.map((row, rowIndex) => (
+        <div className={styles.Row}>
+          { row.map((item, colIndex) => (
+            <Cell data={item} row={rowIndex} col={colIndex} />
           )) }
         </div>
       ))}
@@ -21,10 +22,6 @@ export default function Field(props) {
 
 Field.propTypes = {
   data: propTypes.arrayOf(
-    propTypes.arrayOf(
-      propTypes.shape({
-        tip: propTypes.string,
-      }),
-    ),
+    propTypes.arrayOf(cellData),
   ).isRequired,
 };

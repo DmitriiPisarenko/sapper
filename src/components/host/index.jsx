@@ -4,7 +4,18 @@ import Field from '../field';
 import styles from './host.module.css';
 
 const data = [
-  [{ tip: '4' }, { tip: '7' }], [{ tip: '2' }, { tip: '9' }],
+  [
+    { tip: '4' },
+    {
+      tip: '7',
+      bomb: true,
+    },
+  ],
+  [
+    { tip: '2' },
+    { tip: '9' },
+    {},
+  ],
 ];
 
 const counter = 5;
