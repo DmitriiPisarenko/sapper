@@ -4,7 +4,6 @@ import Field from '../field';
 import styles from './host.module.css';
 
 const maxElements = 10;
-const counter = 5;
 const time = 10;
 
 export default class Host extends React.Component {
@@ -40,20 +39,37 @@ export default class Host extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { data: [] };
-    this.cellClickHandler = this.cellClickHandler.bind(this);
+    this.state = {
+      data: [],
+      restBombsCount: maxElements,
+    };
+    this.cellOpenHandler = this.cellOpenHandler.bind(this);
     this.generateData = this.generateData.bind(this);
+    this.cellMarkHandler = this.cellMarkHandler.bind(this);
   }
 
   componentDidMount() {
     this.generateData();
   }
 
-  cellClickHandler(row, col) {
+  cellOpenHandler(row, col) {
     const { data } = this.state;
     const newData = data.slice();
     newData[row][col].isOpen = true;
     this.setState({ data: newData });
+  }
+
+  cellMarkHandler(row, col) {
+    const { data, restBombsCount } = this.state;
+    const newData = data.slice();
+    newData[row][col].isMarked = !newData[row][col].isMarked;
+    const newCounter = newData[row][col].isMarked
+      ? restBombsCount - 1
+      : restBombsCount + 1;
+    this.setState({
+      data: newData,
+      restBombsCount: newCounter,
+    });
   }
 
   generateData() {
@@ -75,11 +91,11 @@ export default class Host extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, restBombsCount } = this.state;
     return (
       <div className={styles.Container}>
-        <Header counter={counter} time={time} onRestartClick={this.generateData} />
-        <Field data={data} onCellClick={this.cellClickHandler} />
+        <Header counter={restBombsCount} time={time} onRestartClick={this.generateData} />
+        <Field data={data} onCellOpen={this.cellOpenHandler} onCellMark={this.cellMarkHandler} />
       </div>
     );
   }

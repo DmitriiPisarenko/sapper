@@ -5,7 +5,7 @@ import bombImage from '../../assets/images/bomb.jpg';
 
 export default function Cell(props) {
   const {
-    data, row, col, onClick,
+    data, row, col, onOpen, onMark,
   } = props;
   let value;
 
@@ -15,14 +15,23 @@ export default function Cell(props) {
     value = data.tip;
   }
 
-  function handleClick() {
-    onClick(row, col);
+  function onOpenWrapper() {
+    onOpen(row, col);
+  }
+
+  function onMarkWrapper(event) {
+    event.preventDefault();
+    onMark(row, col);
   }
 
   return (
     <div className={styles.Cell}>
       {value}
-      { !data.isOpen && <div className={styles.Overlay} onClick={handleClick} />}
+      { !data.isOpen && (
+        <div className={styles.Overlay} onClick={onOpenWrapper} onContextMenu={onMarkWrapper}>
+          { data.isMarked && <img src="" alt="flag" />}
+        </div>
+      )}
     </div>
   );
 }
@@ -31,11 +40,13 @@ export const cellData = propTypes.shape({
   tip: propTypes.string,
   isBomb: propTypes.bool,
   isOpen: propTypes.bool,
+  isMarked: propTypes.bool,
 });
 
 Cell.propTypes = {
   data: cellData.isRequired,
   row: propTypes.number.isRequired,
   col: propTypes.number.isRequired,
-  onClick: propTypes.func.isRequired,
+  onOpen: propTypes.func.isRequired,
+  onMark: propTypes.func.isRequired,
 };
