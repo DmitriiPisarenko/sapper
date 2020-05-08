@@ -26,6 +26,18 @@ export default class Host extends React.Component {
     return bombs;
   }
 
+  static calculateTip(bombs, row, col) {
+    let counter = 0;
+    for (let i = row - 1; i <= row + 1; i += 1) {
+      for (let j = col - 1; j <= col + 1; j += 1) {
+        if (bombs[i]?.[j]) {
+          counter += 1;
+        }
+      }
+    }
+    return counter;
+  }
+
   constructor(props) {
     super(props);
     this.state = { data: [] };
@@ -50,7 +62,12 @@ export default class Host extends React.Component {
     for (let i = 0; i < maxElements; i += 1) {
       const elements = [];
       for (let j = 0; j < maxElements; j += 1) {
-        elements.push({ isBomb: !!bombs[i]?.[j] });
+        const isBomb = !!bombs[i]?.[j];
+        let tip;
+        if (!isBomb) {
+          tip = Host.calculateTip(bombs, i, j);
+        }
+        elements.push({ isBomb, tip });
       }
       rows.push(elements);
     }
