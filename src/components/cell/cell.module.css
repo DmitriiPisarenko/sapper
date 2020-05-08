@@ -18,5 +18,12 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #2ba619;;
+  background-color: #2ba619;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Overlay img {
+  background-color: #2ba619;
 }

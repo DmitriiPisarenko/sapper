@@ -4,14 +4,20 @@ import styles from './field.module.css';
 import Cell, { cellData } from '../cell';
 
 export default function Field(props) {
-  const { data, onCellOpen , onCellMark } = props;
+  const { data, onCellOpen, onCellMark } = props;
 
   return (
     <div className={styles.Container}>
       { data.map((row, rowIndex) => (
         <div className={styles.Row}>
           { row.map((item, colIndex) => (
-            <Cell data={item} row={rowIndex} col={colIndex} onOpen={onCellOpen} onMark={onCellMark} />
+            <Cell
+              data={item}
+              row={rowIndex}
+              col={colIndex}
+              onOpen={onCellOpen}
+              onMark={onCellMark}
+            />
           )) }
         </div>
       ))}

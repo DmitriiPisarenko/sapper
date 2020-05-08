@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import styles from './cell.module.css';
 import bombImage from '../../assets/images/bomb.jpg';
+import flagImage from '../../assets/images/flag.jpg';
 
 export default function Cell(props) {
   const {
@@ -29,7 +30,7 @@ export default function Cell(props) {
       {value}
       { !data.isOpen && (
         <div className={styles.Overlay} onClick={onOpenWrapper} onContextMenu={onMarkWrapper}>
-          { data.isMarked && <img src="" alt="flag" />}
+          { data.isMarked && <img src={flagImage} alt="flag" />}
         </div>
       )}
     </div>
