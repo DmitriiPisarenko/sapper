@@ -8,6 +8,24 @@ const counter = 5;
 const time = 10;
 
 export default class Host extends React.Component {
+  static generateBombsPositions() {
+    const bombs = {};
+    for (let i = 0; i < maxElements; i += 1) {
+      let row = Math.floor(Math.random() * maxElements);
+      let col = Math.floor(Math.random() * maxElements);
+      while (bombs[row]?.[col]) {
+        col = Math.floor(Math.random() * maxElements);
+        row = Math.floor(Math.random() * maxElements);
+      }
+      if (bombs[row]) {
+        bombs[row][col] = true;
+      } else {
+        bombs[row] = { [col]: true };
+      }
+    }
+    return bombs;
+  }
+
   constructor(props) {
     super(props);
     this.state = { data: [] };
@@ -27,11 +45,12 @@ export default class Host extends React.Component {
   }
 
   generateData() {
+    const bombs = Host.generateBombsPositions();
     const rows = [];
     for (let i = 0; i < maxElements; i += 1) {
       const elements = [];
       for (let j = 0; j < maxElements; j += 1) {
-        elements.push({});
+        elements.push({ isBomb: !!bombs[i]?.[j] });
       }
       rows.push(elements);
     }
