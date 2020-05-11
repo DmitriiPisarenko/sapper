@@ -37,6 +37,24 @@ export default class Host extends React.Component {
     return counter;
   }
 
+  static cascadeOpen(data, row, col) {
+    if (row < 0 || col < 0 || row >= maxElements || col >= maxElements || data[row][col].isOpen) {
+      return;
+    }
+
+    if (!data[row][col].isBomb) {
+      // eslint-disable-next-line no-param-reassign
+      data[row][col].isOpen = true;
+    }
+
+    if (!data[row][col].tip) {
+      Host.cascadeOpen(data, row - 1, col);
+      Host.cascadeOpen(data, row + 1, col);
+      Host.cascadeOpen(data, row, col + 1);
+      Host.cascadeOpen(data, row, col - 1);
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +77,7 @@ export default class Host extends React.Component {
       return;
     }
     const newData = data.slice();
-    newData[row][col].isOpen = true;
+    Host.cascadeOpen(newData, row, col);
     let failData;
     if (data[row][col].isBomb) {
       failData = { row, col };
