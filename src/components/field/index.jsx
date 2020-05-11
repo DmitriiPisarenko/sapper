@@ -4,7 +4,12 @@ import styles from './field.module.css';
 import Cell, { cellData } from '../cell';
 
 export default function Field(props) {
-  const { data, onCellOpen, onCellMark } = props;
+  const {
+    data,
+    onCellOpen,
+    onCellMark,
+    fail,
+  } = props;
 
   return (
     <div className={styles.Container}>
@@ -17,6 +22,7 @@ export default function Field(props) {
               col={colIndex}
               onOpen={onCellOpen}
               onMark={onCellMark}
+              fail={fail}
             />
           )) }
         </div>
@@ -32,4 +38,12 @@ Field.propTypes = {
   ).isRequired,
   onCellOpen: propTypes.func.isRequired,
   onCellMark: propTypes.func.isRequired,
+  fail: propTypes.shape({
+    row: propTypes.number.isRequired,
+    col: propTypes.number.isRequired,
+  }),
+};
+
+Field.defaultProps = {
+  fail: undefined,
 };

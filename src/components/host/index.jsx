@@ -42,6 +42,7 @@ export default class Host extends React.Component {
     this.state = {
       data: [],
       restBombsCount: maxElements,
+      fail: undefined,
     };
     this.cellOpenHandler = this.cellOpenHandler.bind(this);
     this.generateData = this.generateData.bind(this);
@@ -53,14 +54,27 @@ export default class Host extends React.Component {
   }
 
   cellOpenHandler(row, col) {
-    const { data } = this.state;
+    const { data, fail } = this.state;
+    if (fail) {
+      return;
+    }
     const newData = data.slice();
     newData[row][col].isOpen = true;
-    this.setState({ data: newData });
+    let failData;
+    if (data[row][col].isBomb) {
+      failData = { row, col };
+    }
+    this.setState({
+      data: newData,
+      fail: failData,
+    });
   }
 
   cellMarkHandler(row, col) {
-    const { data, restBombsCount } = this.state;
+    const { data, restBombsCount, fail } = this.state;
+    if (fail) {
+      return;
+    }
     const newData = data.slice();
     newData[row][col].isMarked = !newData[row][col].isMarked;
     const newCounter = newData[row][col].isMarked
@@ -87,15 +101,29 @@ export default class Host extends React.Component {
       }
       rows.push(elements);
     }
-    this.setState({ data: rows });
+    this.setState({
+      data: rows,
+      fail: undefined,
+      restBombsCount: maxElements,
+    });
   }
 
   render() {
-    const { data, restBombsCount } = this.state;
+    const { data, restBombsCount, fail } = this.state;
     return (
       <div className={styles.Container}>
-        <Header counter={restBombsCount} time={time} onRestartClick={this.generateData} />
-        <Field data={data} onCellOpen={this.cellOpenHandler} onCellMark={this.cellMarkHandler} />
+        <Header
+          counter={restBombsCount}
+          time={time}
+          onRestartClick={this.generateData}
+          fail={fail}
+        />
+        <Field
+          data={data}
+          onCellOpen={this.cellOpenHandler}
+          onCellMark={this.cellMarkHandler}
+          fail={fail}
+        />
       </div>
     );
   }

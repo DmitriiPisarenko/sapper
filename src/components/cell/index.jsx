@@ -1,12 +1,18 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import classNames from 'classnames';
 import styles from './cell.module.css';
 import bombImage from '../../assets/images/bomb.jpg';
 import flagImage from '../../assets/images/flag.jpg';
 
 export default function Cell(props) {
   const {
-    data, row, col, onOpen, onMark,
+    data,
+    row,
+    col,
+    onOpen,
+    onMark,
+    fail,
   } = props;
   let value;
 
@@ -24,11 +30,16 @@ export default function Cell(props) {
     event.preventDefault();
     onMark(row, col);
   }
+  const showOverlay = !(data.isOpen || (fail && data.isBomb));
 
   return (
-    <div className={styles.Cell}>
+    <div
+      className={classNames(styles.Cell, {
+        [styles.Failed]: row === fail?.row && col === fail?.col,
+      })}
+    >
       {value}
-      { !data.isOpen && (
+      { showOverlay && (
         <div className={styles.Overlay} onClick={onOpenWrapper} onContextMenu={onMarkWrapper}>
           { data.isMarked && <img src={flagImage} alt="flag" />}
         </div>
@@ -50,4 +61,12 @@ Cell.propTypes = {
   col: propTypes.number.isRequired,
   onOpen: propTypes.func.isRequired,
   onMark: propTypes.func.isRequired,
+  fail: propTypes.shape({
+    row: propTypes.number.isRequired,
+    col: propTypes.number.isRequired,
+  }),
+};
+
+Cell.defaultProps = {
+  fail: undefined,
 };

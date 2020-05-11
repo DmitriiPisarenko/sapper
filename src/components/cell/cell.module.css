@@ -27,3 +27,7 @@
 .Overlay img {
   background-color: #2ba619;
 }
+
+.Failed {
+  background-color: red;
+}
