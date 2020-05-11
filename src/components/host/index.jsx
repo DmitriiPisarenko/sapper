@@ -55,12 +55,25 @@ export default class Host extends React.Component {
     }
   }
 
+  static checkForWin(data) {
+    let closedCellsCount = 0;
+    data.forEach((row) => {
+      row.forEach((cell) => {
+        if (!cell.isOpen) {
+          closedCellsCount += 1;
+        }
+      });
+    });
+    return closedCellsCount === maxElements;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       restBombsCount: maxElements,
       fail: undefined,
+      win: undefined,
     };
     this.cellOpenHandler = this.cellOpenHandler.bind(this);
     this.generateData = this.generateData.bind(this);
@@ -72,8 +85,8 @@ export default class Host extends React.Component {
   }
 
   cellOpenHandler(row, col) {
-    const { data, fail } = this.state;
-    if (fail) {
+    const { data, fail, win } = this.state;
+    if (fail || win) {
       return;
     }
     const newData = data.slice();
@@ -81,16 +94,34 @@ export default class Host extends React.Component {
     let failData;
     if (data[row][col].isBomb) {
       failData = { row, col };
+      if (failData) {
+        // eslint-disable-next-line no-alert
+        alert('You Lose!');
+      }
+    }
+    let isWin;
+    if (!failData) {
+      isWin = Host.checkForWin(newData);
+      if (isWin) {
+        // eslint-disable-next-line no-alert
+        alert('You Win!');
+      }
     }
     this.setState({
       data: newData,
       fail: failData,
+      win: isWin,
     });
   }
 
   cellMarkHandler(row, col) {
-    const { data, restBombsCount, fail } = this.state;
-    if (fail) {
+    const {
+      data,
+      restBombsCount,
+      fail,
+      win,
+    } = this.state;
+    if (fail || win) {
       return;
     }
     const newData = data.slice();
