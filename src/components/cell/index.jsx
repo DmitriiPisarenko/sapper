@@ -49,7 +49,7 @@ export default function Cell(props) {
 }
 
 export const cellData = propTypes.shape({
-  tip: propTypes.string,
+  tip: propTypes.number,
   isBomb: propTypes.bool,
   isOpen: propTypes.bool,
   isMarked: propTypes.bool,

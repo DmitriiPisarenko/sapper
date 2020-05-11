@@ -26,8 +26,11 @@ export default class Header extends React.Component {
       endGame: props.endGame,
       startTime: this.startTime.bind(this),
     };
-    intervalId = this.startTime();
     this.restartGame = this.restartGame.bind(this);
+  }
+
+  componentDidMount() {
+    intervalId = this.startTime();
   }
 
   startTime() {

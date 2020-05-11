@@ -14,9 +14,12 @@ export default function Field(props) {
   return (
     <div className={styles.Container}>
       { data.map((row, rowIndex) => (
-        <div className={styles.Row}>
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={rowIndex} className={styles.Row}>
           { row.map((item, colIndex) => (
             <Cell
+            // eslint-disable-next-line react/no-array-index-key
+              key={colIndex}
               data={item}
               row={rowIndex}
               col={colIndex}
