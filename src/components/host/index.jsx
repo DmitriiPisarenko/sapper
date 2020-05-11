@@ -4,7 +4,6 @@ import Field from '../field';
 import styles from './host.module.css';
 
 const maxElements = 10;
-const time = 10;
 
 export default class Host extends React.Component {
   static generateBombsPositions() {
@@ -158,14 +157,18 @@ export default class Host extends React.Component {
   }
 
   render() {
-    const { data, restBombsCount, fail } = this.state;
+    const {
+      data,
+      restBombsCount,
+      fail,
+      win,
+    } = this.state;
     return (
       <div className={styles.Container}>
         <Header
           counter={restBombsCount}
-          time={time}
           onRestartClick={this.generateData}
-          fail={fail}
+          endGame={!!fail || !!win}
         />
         <Field
           data={data}
